@@ -8,7 +8,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "sleek-capybara-771.convex.cloud",
+        hostname: "chatty-bee-935.convex.cloud",
       },
       {
         protocol: "https",
