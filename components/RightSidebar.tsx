@@ -5,9 +5,13 @@ import Link from "next/link";
 import React from "react";
 import Header from "./Header";
 import Carousel from "./Carousel";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 const RightSidebar = () => {
   const { user } = useUser();
+
+  const topPodcaster = useQuery(api.users.getTopUserByPodcastCount);
 
   return (
     <section className="sticky right-0 top-0 flex w-[310px] flex-col overflow-y-hidden border-none bg-black-1 px-[30px] pt-8 max-xl:hidden">
@@ -19,7 +23,7 @@ const RightSidebar = () => {
               {user?.firstName} {user?.lastName}
             </h1>
             <Image
-              src="/icons/right-arrow.svg "
+              src="/icons/right-arrow.svg"
               alt="arrow"
               width={24}
               height={24}
@@ -29,8 +33,8 @@ const RightSidebar = () => {
       </SignedIn>
 
       <section className="">
-        <Header />
-        <Carousel />
+        <Header headerTitle="Fans like you" />
+        <Carousel fansLikeDetails={topPodcaster!} />
       </section>
     </section>
   );
