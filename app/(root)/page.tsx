@@ -1,10 +1,7 @@
 "use client";
+import PodcastCard from "@/components/PodcastCard";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import Link from "next/link";
-import React from "react";
-// import { podcastData } from "../constants";
-import PodcastCard from "@/components/PodcastCard";
 
 const Home = () => {
   const trendingPodcasts = useQuery(api.podcasts.getTrendingPodcasts);
@@ -14,14 +11,14 @@ const Home = () => {
       <section className="flex flex-col gap-5">
         <h1 className="text-20 font-bold text-white-1">Trending Podcasts</h1>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+        <div className="podcast_grid">
           {trendingPodcasts?.map(
-            ({ _id, imageUrl, podcastTitle, podcastDescription }) => (
+            ({ _id, podcastTitle, podcastDescription, imageUrl }) => (
               <PodcastCard
                 key={_id}
-                imgUrl={imageUrl}
-                description={podcastDescription}
+                imgUrl={imageUrl as string}
                 title={podcastTitle}
+                description={podcastDescription}
                 podcastId={_id}
               />
             )
