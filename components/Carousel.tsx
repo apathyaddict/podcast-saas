@@ -8,28 +8,19 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import LoaderSpinner from "./LoaderSpinner";
 
-//removed bycreating an object instead
-// type PropType = {
-//   slides: number[];
-//   options?: EmblaOptionsType;
-// };
-
 const EmblaCarousel = ({ fansLikeDetail }: CarouselProps) => {
   const router = useRouter();
 
-  console.log(fansLikeDetail);
-
-  //change options in to an object
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()]);
 
   const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
     const autoplay = emblaApi?.plugins()?.autoplay;
-    if (!autoplay) return;
+    if (!autoplay || !("stopOnInteraction" in autoplay.options)) return;
 
     const resetOrStop =
       autoplay.options.stopOnInteraction === false
-        ? autoplay.reset
-        : autoplay.stop;
+        ? (autoplay.reset as () => void)
+        : (autoplay.stop as () => void);
 
     resetOrStop();
   }, []);
@@ -44,6 +35,7 @@ const EmblaCarousel = ({ fansLikeDetail }: CarouselProps) => {
     fansLikeDetail?.filter((item: any) => item.totalPodcasts > 0);
 
   if (!slides) return <LoaderSpinner />;
+
   return (
     <section
       className="flex w-full flex-col gap-4 overflow-hidden"
@@ -71,19 +63,14 @@ const EmblaCarousel = ({ fansLikeDetail }: CarouselProps) => {
           </figure>
         ))}
       </div>
-
-      <div className="embla__controls">
-        <div className="embla__dots">
-          {scrollSnaps.map((_, index) => (
-            <DotButton
-              key={index}
-              onClick={() => onDotButtonClick(index)}
-              className={"embla__dot".concat(
-                index === selectedIndex ? " embla__dot--selected" : ""
-              )}
-            />
-          ))}
-        </div>
+      <div className="flex justify-center gap-2">
+        {scrollSnaps.map((_, index) => (
+          <DotButton
+            key={index}
+            onClick={() => onDotButtonClick(index)}
+            selected={index === selectedIndex}
+          />
+        ))}
       </div>
     </section>
   );
