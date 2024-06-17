@@ -2,7 +2,7 @@
 import EmptyState from "@/components/EmptyState";
 import LoaderSpinner from "@/components/LoaderSpinner";
 import PodcastCard from "@/components/PodcastCard";
-import PocastDetailedPlayer from "@/components/PodcastDetailedPlayer";
+import PodcastDetailedPlayer from "@/components/PodcastDetailedPlayer";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/nextjs";
@@ -43,9 +43,9 @@ const PodcastDetails = ({
           <h2 className="text-16 font-bold text-white-1">{podcast?.views}</h2>
         </figure>
       </header>
-      <PocastDetailedPlayer
+      <PodcastDetailedPlayer
         isOwner={isOwner}
-        podcastid={podcast._id}
+        podcastId={podcast._id}
         {...podcast}
       />
       ;

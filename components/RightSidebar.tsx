@@ -11,7 +11,7 @@ import { api } from "@/convex/_generated/api";
 const RightSidebar = () => {
   const { user } = useUser();
 
-  const topPodcaster = useQuery(api.users.getTopUserByPodcastCount);
+  const topPodcasters = useQuery(api.users.getTopUserByPodcastCount);
 
   return (
     <section className="sticky right-0 top-0 flex w-[310px] flex-col overflow-y-hidden border-none bg-black-1 px-[30px] pt-8 max-xl:hidden">
@@ -32,9 +32,9 @@ const RightSidebar = () => {
         </Link>
       </SignedIn>
 
-      <section className="">
+      <section className="flex flex-col gap-2 pt-2">
         <Header headerTitle="Fans like you" />
-        {/* <Carousel fansLikeDetail={topPodcaster!} /> */}
+        <Carousel fansLikeDetail={topPodcasters!} />
       </section>
     </section>
   );
