@@ -34,7 +34,7 @@ const RightSidebar = () => {
 
       <section className="">
         <Header headerTitle="Fans like you" />
-        <Carousel fansLikeDetails={topPodcaster!} />
+        {/* <Carousel fansLikeDetail={topPodcaster!} /> */}
       </section>
     </section>
   );

@@ -55,10 +55,11 @@ const useGeneratePodcast = ({
 
       const audioUrl = await getAudioUrl({ storageId });
       setAudio(audioUrl!);
-      setIsGenerating(false);
+
       toast({
         title: "Podcast generated successfully",
       });
+      setIsGenerating(false);
     } catch (error) {
       console.log("Error generating podcast", error);
       toast({
@@ -93,7 +94,8 @@ const GeneratePodcast = (props: GeneratePodcastProps) => {
         <Button
           type="submit"
           className="text-16 bg-orange-1 py-4 font-bold text-white-1"
-          onClick={generatePodcast}>
+          onClick={generatePodcast}
+          disabled={isGenerating}>
           {isGenerating ? (
             <>
               Generating

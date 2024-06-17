@@ -43,11 +43,13 @@ const GenerateThumbnail = ({
 
       const imageUrl = await getImageUrl({ storageId });
       setImage(imageUrl!);
-      setisImageLoading(false);
+
       toast({
         title: "Thumbnail generated successfully",
       });
+      setisImageLoading(false);
     } catch (error) {
+      setisImageLoading(false);
       console.log(error);
       toast({ title: "Error generating thumbnail", variant: "destructive" });
     }
@@ -55,7 +57,7 @@ const GenerateThumbnail = ({
 
   const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-
+    setisImageLoading(true);
     try {
       const files = e.target.files;
       if (!files) return;
@@ -65,6 +67,7 @@ const GenerateThumbnail = ({
 
       handleImage(blob, file.name);
     } catch (error) {
+      setisImageLoading(false);
       console.log(error);
       toast({ title: "Error uploading thumbnail", variant: "destructive" });
     }
@@ -72,12 +75,13 @@ const GenerateThumbnail = ({
 
   const generateImage = async () => {
     try {
+      setisImageLoading(true);
       const response = await handleGenerateThumbnail({ prompt: imagePrompt });
       const blob = new Blob([response], { type: "image/png" });
       handleImage(blob, `thumbnail-${uuidv4()}`);
     } catch (error) {
       console.log(error);
-      toast({ title: "Error uploading thumbnail", variant: "destructive" });
+      //toast({ title: "Error uploading thumbnail", variant: "destructive" });
     }
   };
   return (
