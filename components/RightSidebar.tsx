@@ -9,10 +9,12 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from "next/navigation";
 import LoaderSpinner from "./LoaderSpinner";
+import { useAudio } from "@/providers/AudioProvider";
 
 const RightSidebar = () => {
   const { user } = useUser();
   const router = useRouter();
+  const { audio } = useAudio();
 
   const topPodcasters = useQuery(api.users.getTopUserByPodcastCount);
 

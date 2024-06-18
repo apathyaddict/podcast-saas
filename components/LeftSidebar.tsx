@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import { useAudio } from "@/providers/AudioProvider";
 
 const LeftSidebar = () => {
   const pathname = usePathname();
@@ -14,6 +15,7 @@ const LeftSidebar = () => {
   const { signOut } = useClerk();
   const { user } = useUser();
   const [sidebarLinks, setSidebarLinks] = useState(initialSidebarLinks);
+  const { audio } = useAudio();
 
   useEffect(() => {
     if (user) {
@@ -28,7 +30,10 @@ const LeftSidebar = () => {
   }, [user]);
 
   return (
-    <section className="sticky left-0 top-0 flex w-fit flex-col justify-between border-none bg-black-1 pt-8 text-white-1 max-md:hidden lg:w-[270px] lg:pl-8">
+    <section
+      className={cn("left_sidebar h-[calc(100vh-5px)]", {
+        "h-[calc(100vh-140px)]": audio?.audioUrl,
+      })}>
       <nav className="flex flex-col gap-6">
         <Link
           href="/"
