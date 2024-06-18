@@ -1,17 +1,31 @@
 "use client";
-import { sidebarLinks } from "@/app/constants";
+import { sidebarLinks as initialSidebarLinks } from "@/app/constants";
 import { cn } from "@/lib/utils";
-import { SignedIn, SignedOut, useClerk } from "@clerk/nextjs";
+import { SignedIn, SignedOut, useClerk, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 
 const LeftSidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { signOut } = useClerk();
+  const { user } = useUser();
+  const [sidebarLinks, setSidebarLinks] = useState(initialSidebarLinks);
+
+  useEffect(() => {
+    if (user) {
+      const profileId = user.id;
+      const updatedLinks = initialSidebarLinks.map((link) =>
+        link.label === "My Profile"
+          ? { ...link, route: `/Profile/${profileId}` }
+          : link
+      );
+      setSidebarLinks(updatedLinks);
+    }
+  }, [user]);
 
   return (
     <section className="sticky left-0 top-0 flex w-fit flex-col justify-between border-none bg-black-1 pt-8 text-white-1 max-md:hidden lg:w-[270px] lg:pl-8">
@@ -21,13 +35,11 @@ const LeftSidebar = () => {
           className="flex cursor-pointer items-center gap-1 pb-10 max-lg:justify-center">
           <Image src="/icons/logo.svg" alt="logo" width={23} height={27} />
           <h1 className="text-24 font-extrabold text-white max-lg:hidden">
-            {" "}
             PodcastR
           </h1>
         </Link>
 
         {sidebarLinks.map(({ route, label, imgURL }) => {
-          //for active route hover selector
           const isActive =
             pathname === route || pathname.startsWith(`${route}/`);
           return (

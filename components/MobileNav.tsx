@@ -6,14 +6,30 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { sidebarLinks } from "@/app/constants";
+import { sidebarLinks as initialSidebarLinks } from "@/app/constants";
 import { cn } from "@/lib/utils";
+import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 const MobileNav = () => {
   const pathname = usePathname();
+  const { user } = useUser();
+  const [sidebarLinks, setSidebarLinks] = useState(initialSidebarLinks);
+
+  useEffect(() => {
+    if (user) {
+      const profileId = user.id;
+      const updatedLinks = initialSidebarLinks.map((link) =>
+        link.label === "My Profile"
+          ? { ...link, route: `/Profile/${profileId}` }
+          : link
+      );
+      setSidebarLinks(updatedLinks);
+    }
+  }, [user]);
 
   return (
     <section>

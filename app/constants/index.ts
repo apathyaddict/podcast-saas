@@ -1,3 +1,5 @@
+const profileId = "yourProfileId";
+
 export const sidebarLinks = [
   {
     imgURL: "/icons/home.svg",
@@ -13,6 +15,11 @@ export const sidebarLinks = [
     imgURL: "/icons/microphone.svg",
     route: "/create-podcast",
     label: "Create Podcast",
+  },
+  {
+    imgURL: "/icons/profile.svg",
+    route: `/profile/${profileId}`,
+    label: "My Profile",
   },
 ];
 
